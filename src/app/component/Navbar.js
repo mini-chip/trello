@@ -3,11 +3,28 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "../logo.png";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../lib/supabaseClient";
+import { createSupabaseClient } from "../../lib/supabaseClient";
 
 export const Navbar = () => {
+  const supabase = createSupabaseClient();
   const [session, setSession] = useState(null);
+  const [user, setUser] = useState(null);
   const router = useRouter();
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        router.push("/login"); // 메인 페이지로 리디렉션
+      } else {
+        setUser(user); // 사용자 정보를 상태에 설정
+      }
+    };
+
+    fetchUser();
+  }, [router]);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -43,7 +60,7 @@ export const Navbar = () => {
   const SignupClickhandler = () => {
     router.push("/signup");
   };
-
+  if (!user) return <p>Loading...</p>;
   return (
     <nav className="flex items-center justify-between p-4 bg-gray-800 text-white">
       <div className="hidden md:flex items-center">
