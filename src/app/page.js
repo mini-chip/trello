@@ -1,28 +1,39 @@
+"use client";
 import React from "react";
 import Image from "next/image";
-
+import logo from "./logo.png";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 const Navbar = () => {
+  const router = useRouter();
+  const LoginClickhandler = () => {
+    router.push("/login");
+  };
+  const SignupClickhandler = () => {
+    router.push("/signup");
+  };
   return (
     <nav className="flex items-center justify-between p-4 bg-gray-800 text-white">
-      {/* 768px 이상에서 로고와 서비스 이름이 표시 */}
       <div className="hidden md:flex items-center">
-        <Image src="/logo.png" alt="Logo" width={10} height={10} />
-        <span className="text-lg font-bold">브랜드</span>
+        <Image src={logo} alt="Logo" width={40} height={40} />
+        <span className="text-lg font-bold">Trello</span>
       </div>
-      {/* 768px 이상에서 회원가입, 로그인 버튼 표시 */}
-      <div className="hidden md:flex space-x-4">
-        <button className="px-4 py-2 bg-blue-500 rounded">회원가입</button>
-
-        <button className="px-4 py-2 bg-gray-600 rounded">로그인</button>
-      </div>
-      {/* 768px 미만에서 로그인, 회원가입 버튼 표시 */}
-      <div className="flex md:hidden space-x-4 w-full justify-between">
-        <button className="px-4 py-2 bg-gray-600 rounded">로그인</button>
-        <button className="px-4 py-2 bg-blue-500 rounded">회원가입</button>
+      <div className="flex items-center w-full justify-between md:justify-end space-x-4">
+        <button
+          className="px-4 py-2 bg-gray-600 rounded"
+          onClick={LoginClickhandler}
+        >
+          로그인
+        </button>
+        <button
+          className="px-4 py-2 bg-blue-500 rounded"
+          onClick={SignupClickhandler}
+        >
+          회원가입
+        </button>
       </div>
     </nav>
   );
-  인;
 };
 
 const Home = () => {
